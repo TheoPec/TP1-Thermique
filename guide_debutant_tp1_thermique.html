@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide débutant - TP1 Thermique Conductibilité</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --paper:#ffffff;
+      --ink:#1f2937;
+      --muted:#5b6472;
+      --accent:#0f4c81;
+      --accent2:#1b6aa8;
+      --soft:#eaf3fb;
+      --line:#d7e0ea;
+      --warn:#fff7e6;
+      --good:#edf8f1;
+      --code:#f8fbfe;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.6;
+    }
+    .wrap{
+      max-width:1050px;
+      margin:32px auto;
+      padding:0 18px 40px;
+    }
+    .card{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow:0 12px 32px rgba(20,30,40,.08);
+    }
+    header{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:white;
+      padding:30px 34px;
+    }
+    header h1{
+      margin:0 0 10px;
+      font-size:32px;
+    }
+    header p{
+      margin:0;
+      font-size:17px;
+      opacity:.97;
+    }
+    main{padding:28px 34px 36px;}
+    h2{
+      margin:32px 0 12px;
+      color:var(--accent);
+      font-size:25px;
+      border-bottom:2px solid var(--soft);
+      padding-bottom:6px;
+    }
+    h3{
+      margin:24px 0 10px;
+      color:#173852;
+      font-size:20px;
+    }
+    p, li{font-size:16px;}
+    ul{padding-left:22px;}
+    .lead{
+      font-size:18px;
+      color:var(--muted);
+    }
+    .chips{margin:10px 0 20px;}
+    .chip{
+      display:inline-block;
+      background:var(--soft);
+      color:var(--accent);
+      border-radius:999px;
+      padding:6px 12px;
+      margin:0 8px 8px 0;
+      font-weight:700;
+      font-size:14px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+      gap:18px;
+      margin:14px 0;
+    }
+    .box{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px 18px;
+      background:#fcfdff;
+    }
+    .formula{
+      background:var(--code);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 16px;
+      margin:10px 0 14px;
+      font-family:Consolas, Monaco, monospace;
+      white-space:pre-wrap;
+      overflow-x:auto;
+      font-size:15px;
+    }
+    .note{
+      background:var(--warn);
+      border-left:5px solid #d6a300;
+      border-radius:12px;
+      padding:14px 16px;
+      margin:14px 0;
+    }
+    .good{
+      background:var(--good);
+      border-left:5px solid #187a43;
+      border-radius:12px;
+      padding:14px 16px;
+      margin:14px 0;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin:10px 0 18px;
+      font-size:15px;
+    }
+    th,td{
+      border:1px solid var(--line);
+      padding:10px 12px;
+      vertical-align:middle;
+      text-align:left;
+    }
+    th{
+      background:var(--soft);
+      color:#15344f;
+    }
+    .small{color:var(--muted); font-size:14px;}
+    .step{
+      counter-increment:step;
+      margin:12px 0;
+      padding:14px 16px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+    }
+    .step strong::before{
+      content:"Étape " counter(step) " - ";
+      color:var(--accent);
+    }
+    .steps{counter-reset:step;}
+    footer{
+      margin-top:30px;
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <h1>Guide débutant - TP1 de Thermique</h1>
+        <p>Explication simple des prérequis, des formules, et de la logique des 2 exercices</p>
+      </header>
+      <main>
+        <p class="lead">
+          Ce document est pensé pour quelqu'un qui débute. Le but n'est pas seulement de donner les résultats,
+          mais de t'expliquer <strong>ce que veulent dire les formules</strong>, <strong>quand les utiliser</strong>,
+          et <strong>comment reconnaître la bonne méthode</strong>.
+        </p>
+
+        <div class="chips">
+          <span class="chip">Conduction</span>
+          <span class="chip">Convection</span>
+          <span class="chip">Résistances thermiques</span>
+          <span class="chip">Régime permanent</span>
+          <span class="chip">Génération interne</span>
+        </div>
+
+        <h2>1. Ce que le TP demande vraiment</h2>
+        <div class="box">
+          <p>
+            Le PDF demande de maîtriser : la loi de Fourier, l'équation de Fourier-Kirchhoff et ses conditions aux limites,
+            le lien entre flux thermique et gradient de température, les résistances thermiques en série/parallèle,
+            ainsi que la conduction en géométrie plane et cylindrique. Ensuite, il faut traiter deux problèmes :
+            un tas de charbon qui chauffe à cause d'une oxydation lente, et un réservoir sphérique d'hydrogène liquide
+            qui reçoit de la chaleur depuis l'extérieur.
+          </p>
+        </div>
+
+        <h2>2. Le vocabulaire indispensable</h2>
+        <table>
+          <tr><th>Symbole</th><th>Nom</th><th>Unité</th><th>Idée simple</th></tr>
+          <tr><td>T</td><td>Température</td><td>°C ou K</td><td>À quel point un point du solide est chaud</td></tr>
+          <tr><td>x</td><td>Position</td><td>m</td><td>Où on se trouve dans l'épaisseur</td></tr>
+          <tr><td>&lambda;</td><td>Conductivité thermique</td><td>W/(m.K)</td><td>Capacité du matériau à laisser passer la chaleur</td></tr>
+          <tr><td>q''</td><td>Flux thermique surfacique</td><td>W/m²</td><td>Puissance thermique qui traverse 1 m²</td></tr>
+          <tr><td>&dot;Q</td><td>Débit de chaleur</td><td>W</td><td>Puissance thermique totale</td></tr>
+          <tr><td>q'''</td><td>Génération volumique</td><td>W/m³</td><td>Chaleur produite à l'intérieur du volume</td></tr>
+          <tr><td>h ou Kext</td><td>Coefficient de convection</td><td>W/(m².K)</td><td>Facilité avec laquelle l'air enlève la chaleur en surface</td></tr>
+          <tr><td>Rth</td><td>Résistance thermique</td><td>K/W</td><td>Frein au passage de la chaleur</td></tr>
+        </table>
+
+        <div class="note">
+          <strong>Astuce très importante :</strong> en thermique, il faut toujours distinguer :
+          <ul>
+            <li><strong>le débit total de chaleur</strong> &dot;Q en W ;</li>
+            <li><strong>le flux</strong> q'' en W/m² ;</li>
+            <li><strong>la génération volumique</strong> q''' en W/m³.</li>
+          </ul>
+          Les trois ne sont pas la même chose.
+        </div>
+
+        <h2>3. Les prérequis expliqués simplement</h2>
+
+        <h3>3.1 La loi de Fourier</h3>
+        <div class="formula">q''x = - &lambda; dT/dx</div>
+        <p>
+          C'est la formule de base de la conduction. Elle dit que la chaleur va du chaud vers le froid.
+          Le signe <strong>-</strong> sert juste à traduire ce sens. Si la température baisse quand x augmente,
+          alors la chaleur part vers +x.
+        </p>
+        <ul>
+          <li>si <strong>&lambda;</strong> est grand, la chaleur passe facilement ;</li>
+          <li>si le gradient <strong>dT/dx</strong> est grand, la chaleur passe plus fortement ;</li>
+          <li>si le gradient est nul, il n'y a pas de flux conductif.</li>
+        </ul>
+
+        <h3>3.2 Le gradient de température</h3>
+        <div class="formula">dT/dx</div>
+        <p>
+          C'est la manière mathématique de dire : <em>à quelle vitesse la température change quand on se déplace</em>.
+          Plus la température change vite dans l'espace, plus le flux thermique est grand.
+        </p>
+
+        <h3>3.3 L'équation de Fourier-Kirchhoff</h3>
+        <div class="formula">&rho; c (&part;T/&part;t) = &lambda; (&part;²T/&part;x²) + q'''</div>
+        <p>
+          C'est l'équation générale du bilan de chaleur dans un solide.
+        </p>
+        <ul>
+          <li><strong>&rho; c (&part;T/&part;t)</strong> : stockage d'énergie, donc évolution dans le temps ;</li>
+          <li><strong>&lambda; (&part;²T/&part;x²)</strong> : diffusion de chaleur par conduction ;</li>
+          <li><strong>q'''</strong> : chaleur produite à l'intérieur.</li>
+        </ul>
+
+        <div class="good">
+          <strong>Dans ce TP, on est en régime permanent.</strong><br>
+          Cela veut dire que la température ne change plus avec le temps, donc :
+          <div class="formula">&part;T/&part;t = 0</div>
+          L'équation devient alors beaucoup plus simple.
+        </div>
+
+        <h3>3.4 Version simplifiée en 1D, régime permanent, &lambda; constant</h3>
+        <div class="formula">d²T/dx² = - q''' / &lambda;</div>
+        <p>
+          C'est <strong>la formule centrale du premier exercice</strong>. Quand il y a une génération interne constante,
+          la température prend en général une forme de <strong>parabole</strong>.
+        </p>
+
+        <h3>3.5 Conditions aux limites</h3>
+        <p>Une équation différentielle seule ne suffit pas. Il faut dire ce qu'il se passe aux bords.</p>
+
+        <div class="grid">
+          <div class="box">
+            <h3>Paroi adiabatique</h3>
+            <div class="formula">q'' = 0
+donc
+dT/dx = 0</div>
+            <p>Aucun échange de chaleur à travers la paroi.</p>
+          </div>
+          <div class="box">
+            <h3>Convection avec un fluide</h3>
+            <div class="formula">q'' = h (Ts - Tfluide)</div>
+            <p>La surface échange avec l'air. Plus l'écart de température est grand, plus l'échange est fort.</p>
+          </div>
+          <div class="box">
+            <h3>Flux imposé</h3>
+            <div class="formula">q'' = valeur connue</div>
+            <p>Exemple : un apport solaire absorbé à la surface.</p>
+          </div>
+        </div>
+
+        <h3>3.6 Résistances thermiques</h3>
+        <p>
+          C'est l'approche la plus pratique quand on a des couches successives ou des échanges en série.
+          On raisonne comme en électricité :
+        </p>
+        <div class="formula">&dot;Q = &Delta;T / Rth</div>
+        <p>
+          Plus la résistance thermique est grande, plus le passage de chaleur est difficile.
+        </p>
+
+        <table>
+          <tr><th>Situation</th><th>Formule</th><th>À retenir</th></tr>
+          <tr><td>Conduction plane</td><td>R = e / (&lambda; A)</td><td>Plus c'est épais, plus ça résiste</td></tr>
+          <tr><td>Convection</td><td>R = 1 / (h A)</td><td>Grand h = faible résistance</td></tr>
+          <tr><td>Conduction cylindrique</td><td>R = ln(r2/r1) / (2 &pi; &lambda; L)</td><td>Pour tuyaux et cylindres</td></tr>
+          <tr><td>Conduction sphérique</td><td>R = (1 / (4 &pi; &lambda;)) (1/r1 - 1/r2)</td><td>Pour l'exercice de l'hydrogène</td></tr>
+        </table>
+
+        <div class="note">
+          <strong>Résistances en série :</strong> on additionne.<br>
+          <div class="formula">Rtot = R1 + R2 + R3 + ...</div>
+          C'est exactement le cas de l'exercice 2.
+        </div>
+
+        <h2>4. Comment savoir quelle formule utiliser ?</h2>
+        <div class="steps">
+          <div class="step"><strong>Regarde la géométrie.</strong> Couche plane ? Cylindre ? Sphère ?</div>
+          <div class="step"><strong>Demande-toi s'il y a génération interne.</strong> Oui = équation différentielle avec q'''. Non = souvent résistances thermiques.</div>
+          <div class="step"><strong>Repère le régime.</strong> Permanent ou variable dans le temps ? Ici : permanent.</div>
+          <div class="step"><strong>Identifie les bords.</strong> Adiabatique ? Convection ? Température imposée ? Flux imposé ?</div>
+          <div class="step"><strong>Choisis la méthode.</strong> Profil de température à trouver = équation de conduction. Simple flux à travers des couches = résistances thermiques.</div>
+        </div>
+
+        <h2>5. Exercice 1 - Tas de charbon</h2>
+        <p>
+          Le tas de charbon est assimilé à une <strong>couche plane</strong> d'épaisseur 2 m.
+          Il y a une <strong>production interne de chaleur</strong> à cause de l'oxydation lente.
+          Donc ici, on n'utilise pas l'approche par résistances pour tout faire directement :
+          on utilise d'abord <strong>l'équation de conduction avec génération interne</strong>.
+        </p>
+
+        <h3>5.1 Pourquoi l'équation est celle-ci ?</h3>
+        <div class="formula">d²T/dx² = - q''' / &lambda;</div>
+        <p>
+          Parce que le problème est :
+        </p>
+        <ul>
+          <li>en 1D selon la hauteur ;</li>
+          <li>en régime permanent ;</li>
+          <li>avec conductivité constante ;</li>
+          <li>avec génération volumique uniforme.</li>
+        </ul>
+
+        <h3>5.2 Forme de la solution</h3>
+        <div class="formula">T(x) = - (q''' / (2&lambda;)) x² + C1 x + C2</div>
+        <p>
+          Comme la dérivée seconde est constante, la température est une parabole.
+          Les constantes <strong>C1</strong> et <strong>C2</strong> se trouvent avec les conditions aux limites.
+        </p>
+
+        <h3>5.3 Cas A : base adiabatique</h3>
+        <p>À la base, il n'y a pas de perte vers le sol :</p>
+        <div class="formula">dT/dx |x=0 = 0</div>
+        <p>
+          Cela veut dire que la pente de la courbe de température est nulle à la base.
+          Comme le profil est une parabole tournée vers le bas, le maximum se trouve alors à la base.
+        </p>
+
+        <div class="good">
+          <strong>Idée physique :</strong><br>
+          La chaleur produite dans le charbon ne peut pas partir par le bas.
+          Donc la zone basse a tendance à accumuler davantage de chaleur.
+        </div>
+
+        <h3>5.4 Condition en surface supérieure</h3>
+        <p>En haut, il y a deux effets :</p>
+        <ul>
+          <li>la surface perd de la chaleur par convection avec l'air ;</li>
+          <li>elle reçoit un apport solaire absorbé.</li>
+        </ul>
+        <div class="formula">- &lambda; (dT/dx)|x=e = Kext [T(e) - Tair] - &alpha; &phi;</div>
+        <p>
+          Le membre de gauche est le flux qui arrive à la surface depuis le charbon.
+          Le membre de droite représente le bilan de surface : perte par convection, corrigée par le gain solaire absorbé.
+        </p>
+
+        <h3>5.5 Cas B : échange avec le sol</h3>
+        <p>
+          Cette fois, le bas n'est plus adiabatique. On modélise une perte vers le sol avec un coefficient d'échange.
+          La condition au bas devient de type convection vers le sol :
+        </p>
+        <div class="formula">&lambda; (dT/dx)|x=0 = Ks [T(0) - Ts]</div>
+        <p>
+          Comme le charbon peut maintenant perdre de la chaleur vers le bas, le maximum n'est plus obligé d'être exactement à la base :
+          il peut se déplacer à l'intérieur du tas.
+        </p>
+
+        <div class="good">
+          <strong>Critère du maximum :</strong><br>
+          Un maximum de température est atteint quand la pente s'annule :
+          <div class="formula">dT/dx = 0</div>
+          Donc, une fois T(x) connue, on dérive et on cherche la position où la dérivée vaut zéro.
+        </div>
+
+        <h3>5.6 Résultats utiles à retenir</h3>
+        <table>
+          <tr><th>Cas</th><th>Conclusion</th></tr>
+          <tr><td>Base adiabatique</td><td>La température maximale est à la base du tas</td></tr>
+          <tr><td>Perte vers le sol</td><td>La température maximale se déplace à l'intérieur du tas</td></tr>
+        </table>
+
+        <div class="formula">Dans les calculs numériques :
+- cas adiabatique : Tmax ≈ 428,9 °C à x = 0
+- avec perte vers le sol : Tmax ≈ 137,9 °C à x ≈ 0,95 m</div>
+
+        <h2>6. Exercice 2 - Stockage d'hydrogène liquide</h2>
+        <p>
+          Ici, on ne te demande pas un profil de température détaillé dans tout le système.
+          On te demande <strong>combien de chaleur entre</strong>, puis combien d'hydrogène cela évapore.
+          La bonne méthode est donc l'approche par <strong>résistances thermiques</strong>.
+        </p>
+
+        <h3>6.1 Pourquoi une résistance sphérique ?</h3>
+        <p>
+          Le réservoir est constitué de deux <strong>sphères concentriques</strong>.
+          La chaleur traverse la couche de silice entre le rayon intérieur et le rayon extérieur.
+          La formule plane <strong>e/(&lambda;A)</strong> n'est donc pas la plus correcte ici.
+          Il faut utiliser la formule de conduction en géométrie sphérique.
+        </p>
+
+        <h3>6.2 Les deux résistances à mettre en série</h3>
+        <div class="formula">Rcond,sphère = (1 / (4 &pi; &lambda;)) (1/r1 - 1/r2)
+
+Rconv,ext = 1 / (h 4 &pi; r2²)
+
+Rtot = Rcond,sphère + Rconv,ext</div>
+        <p>
+          Ensuite, le débit de chaleur total vaut :
+        </p>
+        <div class="formula">&dot;Q = (Text - TH2) / Rtot</div>
+
+        <h3>6.3 Passage de la chaleur au débit évaporé</h3>
+        <p>
+          Toute la chaleur reçue sert à vaporiser de l'hydrogène liquide.
+          On utilise donc la chaleur latente :
+        </p>
+        <div class="formula">&dot;m = &dot;Q / Lv</div>
+
+        <p class="small">Remarque : le symbole correct est m point, c'est-à-dire le débit massique.</p>
+
+        <div class="good">
+          <strong>Interprétation physique :</strong><br>
+          Plus l'isolation résiste au transfert de chaleur, plus &dot;Q est petit, donc moins il y a d'évaporation.
+        </div>
+
+        <div class="formula">Avec les données du TP :
+&dot;Q ≈ 23,15 W
+&dot;m ≈ 5,14 × 10^-5 kg/s</div>
+
+        <h2>7. La logique complète en une page mentale</h2>
+        <div class="grid">
+          <div class="box">
+            <h3>Quand utiliser l'équation différentielle ?</h3>
+            <ul>
+              <li>quand on veut T(x) ;</li>
+              <li>quand il y a génération interne ;</li>
+              <li>quand on a besoin de la position du maximum.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Quand utiliser les résistances thermiques ?</h3>
+            <ul>
+              <li>quand on veut surtout le flux ou le débit de chaleur ;</li>
+              <li>quand le trajet thermique passe par des couches successives ;</li>
+              <li>quand on peut modéliser chaque étape par une résistance.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2>8. Les erreurs classiques à éviter</h2>
+        <ul>
+          <li>confondre <strong>W</strong>, <strong>W/m²</strong> et <strong>W/m³</strong> ;</li>
+          <li>oublier le signe <strong>-</strong> dans la loi de Fourier ;</li>
+          <li>utiliser une formule plane pour une sphère ;</li>
+          <li>oublier que <strong>adiabatique = dérivée nulle</strong> ;</li>
+          <li>chercher le maximum sans utiliser <strong>dT/dx = 0</strong> ;</li>
+          <li>oublier d'additionner les résistances en série dans l'exercice 2.</li>
+        </ul>
+
+        <h2>9. Résumé ultra simple</h2>
+        <div class="good">
+          <ul>
+            <li><strong>Loi de Fourier :</strong> elle relie flux thermique et pente de température.</li>
+            <li><strong>Équation de Fourier-Kirchhoff :</strong> c'est le bilan général de chaleur dans un solide.</li>
+            <li><strong>Exercice 1 :</strong> on cherche un profil de température avec génération interne, donc on résout une équation différentielle.</li>
+            <li><strong>Exercice 2 :</strong> on cherche un débit de chaleur à travers une sphère isolée, donc on utilise des résistances thermiques.</li>
+          </ul>
+        </div>
+
+        <footer>
+          Guide pédagogique créé à partir du TP1 de thermique et des données de l'énoncé.
+        </footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
