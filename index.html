@@ -101,8 +101,7 @@
       border-radius:14px;
       padding:14px 16px;
       margin:10px 0 14px;
-      font-family:Consolas, Monaco, monospace;
-      white-space:pre-wrap;
+      text-align:center;
       overflow-x:auto;
       font-size:15px;
     }
@@ -157,6 +156,16 @@
       font-size:14px;
     }
   </style>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -194,14 +203,14 @@
         <h2>2. Le vocabulaire indispensable</h2>
         <table>
           <tr><th>Symbole</th><th>Nom</th><th>Unité</th><th>Idée simple</th></tr>
-          <tr><td>T</td><td>Température</td><td>°C ou K</td><td>À quel point un point du solide est chaud</td></tr>
-          <tr><td>x</td><td>Position</td><td>m</td><td>Où on se trouve dans l'épaisseur</td></tr>
-          <tr><td>&lambda;</td><td>Conductivité thermique</td><td>W/(m.K)</td><td>Capacité du matériau à laisser passer la chaleur</td></tr>
-          <tr><td>q''</td><td>Flux thermique surfacique</td><td>W/m²</td><td>Puissance thermique qui traverse 1 m²</td></tr>
-          <tr><td>&dot;Q</td><td>Débit de chaleur</td><td>W</td><td>Puissance thermique totale</td></tr>
-          <tr><td>q'''</td><td>Génération volumique</td><td>W/m³</td><td>Chaleur produite à l'intérieur du volume</td></tr>
-          <tr><td>h ou Kext</td><td>Coefficient de convection</td><td>W/(m².K)</td><td>Facilité avec laquelle l'air enlève la chaleur en surface</td></tr>
-          <tr><td>Rth</td><td>Résistance thermique</td><td>K/W</td><td>Frein au passage de la chaleur</td></tr>
+          <tr><td>\(T\)</td><td>Température</td><td>°C ou K</td><td>À quel point un point du solide est chaud</td></tr>
+          <tr><td>\(x\)</td><td>Position</td><td>m</td><td>Où on se trouve dans l'épaisseur</td></tr>
+          <tr><td>\(\lambda\)</td><td>Conductivité thermique</td><td>W/(m.K)</td><td>Capacité du matériau à laisser passer la chaleur</td></tr>
+          <tr><td>\(q''\)</td><td>Flux thermique surfacique</td><td>W/m²</td><td>Puissance thermique qui traverse 1 m²</td></tr>
+          <tr><td>\(\dot{Q}\)</td><td>Débit de chaleur</td><td>W</td><td>Puissance thermique totale</td></tr>
+          <tr><td>\(q'''\)</td><td>Génération volumique</td><td>W/m³</td><td>Chaleur produite à l'intérieur du volume</td></tr>
+          <tr><td>\(h\) ou \(K_{ext}\)</td><td>Coefficient de convection</td><td>W/(m².K)</td><td>Facilité avec laquelle l'air enlève la chaleur en surface</td></tr>
+          <tr><td>\(R_{th}\)</td><td>Résistance thermique</td><td>K/W</td><td>Frein au passage de la chaleur</td></tr>
         </table>
 
         <div class="note">
@@ -217,7 +226,7 @@
         <h2>3. Les prérequis expliqués simplement</h2>
 
         <h3>3.1 La loi de Fourier</h3>
-        <div class="formula">q''x = - &lambda; dT/dx</div>
+        <div class="formula">\[q_x'' = -\lambda \frac{dT}{dx}\]</div>
         <p>
           C'est la formule de base de la conduction. Elle dit que la chaleur va du chaud vers le froid.
           Le signe <strong>-</strong> sert juste à traduire ce sens. Si la température baisse quand x augmente,
@@ -230,14 +239,14 @@
         </ul>
 
         <h3>3.2 Le gradient de température</h3>
-        <div class="formula">dT/dx</div>
+  <div class="formula">\[\frac{dT}{dx}\]</div>
         <p>
           C'est la manière mathématique de dire : <em>à quelle vitesse la température change quand on se déplace</em>.
           Plus la température change vite dans l'espace, plus le flux thermique est grand.
         </p>
 
         <h3>3.3 L'équation de Fourier-Kirchhoff</h3>
-        <div class="formula">&rho; c (&part;T/&part;t) = &lambda; (&part;²T/&part;x²) + q'''</div>
+  <div class="formula">\[\rho c\frac{\partial T}{\partial t}=\lambda\frac{\partial^2 T}{\partial x^2}+q'''\]</div>
         <p>
           C'est l'équation générale du bilan de chaleur dans un solide.
         </p>
@@ -250,12 +259,12 @@
         <div class="good">
           <strong>Dans ce TP, on est en régime permanent.</strong><br>
           Cela veut dire que la température ne change plus avec le temps, donc :
-          <div class="formula">&part;T/&part;t = 0</div>
+          <div class="formula">\[\frac{\partial T}{\partial t}=0\]</div>
           L'équation devient alors beaucoup plus simple.
         </div>
 
         <h3>3.4 Version simplifiée en 1D, régime permanent, &lambda; constant</h3>
-        <div class="formula">d²T/dx² = - q''' / &lambda;</div>
+        <div class="formula">\[\frac{d^2T}{dx^2}=-\frac{q'''}{\lambda}\]</div>
         <p>
           C'est <strong>la formule centrale du premier exercice</strong>. Quand il y a une génération interne constante,
           la température prend en général une forme de <strong>parabole</strong>.
@@ -267,19 +276,17 @@
         <div class="grid">
           <div class="box">
             <h3>Paroi adiabatique</h3>
-            <div class="formula">q'' = 0
-donc
-dT/dx = 0</div>
+            <div class="formula">\[q''=0\quad\Rightarrow\quad\frac{dT}{dx}=0\]</div>
             <p>Aucun échange de chaleur à travers la paroi.</p>
           </div>
           <div class="box">
             <h3>Convection avec un fluide</h3>
-            <div class="formula">q'' = h (Ts - Tfluide)</div>
+            <div class="formula">\[q''=h\left(T_s-T_{fluide}\right)\]</div>
             <p>La surface échange avec l'air. Plus l'écart de température est grand, plus l'échange est fort.</p>
           </div>
           <div class="box">
             <h3>Flux imposé</h3>
-            <div class="formula">q'' = valeur connue</div>
+            <div class="formula">\[q''=q_0''\]</div>
             <p>Exemple : un apport solaire absorbé à la surface.</p>
           </div>
         </div>
@@ -289,22 +296,22 @@ dT/dx = 0</div>
           C'est l'approche la plus pratique quand on a des couches successives ou des échanges en série.
           On raisonne comme en électricité :
         </p>
-        <div class="formula">&dot;Q = &Delta;T / Rth</div>
+        <div class="formula">\[\dot{Q}=\frac{\Delta T}{R_{th}}\]</div>
         <p>
           Plus la résistance thermique est grande, plus le passage de chaleur est difficile.
         </p>
 
         <table>
           <tr><th>Situation</th><th>Formule</th><th>À retenir</th></tr>
-          <tr><td>Conduction plane</td><td>R = e / (&lambda; A)</td><td>Plus c'est épais, plus ça résiste</td></tr>
-          <tr><td>Convection</td><td>R = 1 / (h A)</td><td>Grand h = faible résistance</td></tr>
-          <tr><td>Conduction cylindrique</td><td>R = ln(r2/r1) / (2 &pi; &lambda; L)</td><td>Pour tuyaux et cylindres</td></tr>
-          <tr><td>Conduction sphérique</td><td>R = (1 / (4 &pi; &lambda;)) (1/r1 - 1/r2)</td><td>Pour l'exercice de l'hydrogène</td></tr>
+          <tr><td>Conduction plane</td><td>\(R=\dfrac{e}{\lambda A}\)</td><td>Plus c'est épais, plus ça résiste</td></tr>
+          <tr><td>Convection</td><td>\(R=\dfrac{1}{hA}\)</td><td>Grand h = faible résistance</td></tr>
+          <tr><td>Conduction cylindrique</td><td>\(R=\dfrac{\ln(r_2/r_1)}{2\pi\lambda L}\)</td><td>Pour tuyaux et cylindres</td></tr>
+          <tr><td>Conduction sphérique</td><td>\(R=\dfrac{1}{4\pi\lambda}\left(\dfrac{1}{r_1}-\dfrac{1}{r_2}\right)\)</td><td>Pour l'exercice de l'hydrogène</td></tr>
         </table>
 
         <div class="note">
           <strong>Résistances en série :</strong> on additionne.<br>
-          <div class="formula">Rtot = R1 + R2 + R3 + ...</div>
+          <div class="formula">\[R_{tot}=R_1+R_2+R_3+\cdots\]</div>
           C'est exactement le cas de l'exercice 2.
         </div>
 
@@ -326,7 +333,7 @@ dT/dx = 0</div>
         </p>
 
         <h3>5.1 Pourquoi l'équation est celle-ci ?</h3>
-        <div class="formula">d²T/dx² = - q''' / &lambda;</div>
+  <div class="formula">\[\frac{d^2T}{dx^2}=-\frac{q'''}{\lambda}\]</div>
         <p>
           Parce que le problème est :
         </p>
@@ -338,7 +345,7 @@ dT/dx = 0</div>
         </ul>
 
         <h3>5.2 Forme de la solution</h3>
-        <div class="formula">T(x) = - (q''' / (2&lambda;)) x² + C1 x + C2</div>
+  <div class="formula">\[T(x)=-\frac{q'''}{2\lambda}x^2+C_1x+C_2\]</div>
         <p>
           Comme la dérivée seconde est constante, la température est une parabole.
           Les constantes <strong>C1</strong> et <strong>C2</strong> se trouvent avec les conditions aux limites.
@@ -346,7 +353,7 @@ dT/dx = 0</div>
 
         <h3>5.3 Cas A : base adiabatique</h3>
         <p>À la base, il n'y a pas de perte vers le sol :</p>
-        <div class="formula">dT/dx |x=0 = 0</div>
+  <div class="formula">\[\left.\frac{dT}{dx}\right|_{x=0}=0\]</div>
         <p>
           Cela veut dire que la pente de la courbe de température est nulle à la base.
           Comme le profil est une parabole tournée vers le bas, le maximum se trouve alors à la base.
@@ -364,7 +371,7 @@ dT/dx = 0</div>
           <li>la surface perd de la chaleur par convection avec l'air ;</li>
           <li>elle reçoit un apport solaire absorbé.</li>
         </ul>
-        <div class="formula">- &lambda; (dT/dx)|x=e = Kext [T(e) - Tair] - &alpha; &phi;</div>
+        <div class="formula">\[-\lambda\left.\frac{dT}{dx}\right|_{x=e}=K_{ext}\left[T(e)-T_{air}\right]-\alpha\phi\]</div>
         <p>
           Le membre de gauche est le flux qui arrive à la surface depuis le charbon.
           Le membre de droite représente le bilan de surface : perte par convection, corrigée par le gain solaire absorbé.
@@ -375,7 +382,7 @@ dT/dx = 0</div>
           Cette fois, le bas n'est plus adiabatique. On modélise une perte vers le sol avec un coefficient d'échange.
           La condition au bas devient de type convection vers le sol :
         </p>
-        <div class="formula">&lambda; (dT/dx)|x=0 = Ks [T(0) - Ts]</div>
+        <div class="formula">\[\lambda\left.\frac{dT}{dx}\right|_{x=0}=K_s\left[T(0)-T_s\right]\]</div>
         <p>
           Comme le charbon peut maintenant perdre de la chaleur vers le bas, le maximum n'est plus obligé d'être exactement à la base :
           il peut se déplacer à l'intérieur du tas.
@@ -384,7 +391,7 @@ dT/dx = 0</div>
         <div class="good">
           <strong>Critère du maximum :</strong><br>
           Un maximum de température est atteint quand la pente s'annule :
-          <div class="formula">dT/dx = 0</div>
+          <div class="formula">\[\frac{dT}{dx}=0\]</div>
           Donc, une fois T(x) connue, on dérive et on cherche la position où la dérivée vaut zéro.
         </div>
 
@@ -395,9 +402,10 @@ dT/dx = 0</div>
           <tr><td>Perte vers le sol</td><td>La température maximale se déplace à l'intérieur du tas</td></tr>
         </table>
 
-        <div class="formula">Dans les calculs numériques :
-- cas adiabatique : Tmax ≈ 428,9 °C à x = 0
-- avec perte vers le sol : Tmax ≈ 137,9 °C à x ≈ 0,95 m</div>
+        <div class="formula">\[\begin{aligned}
+      T_{\max,\mathrm{adiab}}&\approx 428{,}9\,^\circ\mathrm{C}\quad (x=0)\\
+      T_{\max,\mathrm{sol}}&\approx 137{,}9\,^\circ\mathrm{C}\quad (x\approx 0{,}95\,\mathrm{m})
+      \end{aligned}\]</div>
 
         <h2>6. Exercice 2 - Stockage d'hydrogène liquide</h2>
         <p>
@@ -415,33 +423,34 @@ dT/dx = 0</div>
         </p>
 
         <h3>6.2 Les deux résistances à mettre en série</h3>
-        <div class="formula">Rcond,sphère = (1 / (4 &pi; &lambda;)) (1/r1 - 1/r2)
-
-Rconv,ext = 1 / (h 4 &pi; r2²)
-
-Rtot = Rcond,sphère + Rconv,ext</div>
+  <div class="formula">\[\begin{aligned}
+R_{cond,\,sph}&=\frac{1}{4\pi\lambda}\left(\frac{1}{r_1}-\frac{1}{r_2}\right)\\
+R_{conv,\,ext}&=\frac{1}{h\,4\pi r_2^2}\\
+R_{tot}&=R_{cond,\,sph}+R_{conv,\,ext}
+\end{aligned}\]</div>
         <p>
           Ensuite, le débit de chaleur total vaut :
         </p>
-        <div class="formula">&dot;Q = (Text - TH2) / Rtot</div>
+        <div class="formula">\[\dot{Q}=\frac{T_{ext}-T_{H_2}}{R_{tot}}\]</div>
 
         <h3>6.3 Passage de la chaleur au débit évaporé</h3>
         <p>
           Toute la chaleur reçue sert à vaporiser de l'hydrogène liquide.
           On utilise donc la chaleur latente :
         </p>
-        <div class="formula">&dot;m = &dot;Q / Lv</div>
+        <div class="formula">\[\dot{m}=\frac{\dot{Q}}{L_v}\]</div>
 
         <p class="small">Remarque : le symbole correct est m point, c'est-à-dire le débit massique.</p>
 
         <div class="good">
           <strong>Interprétation physique :</strong><br>
-          Plus l'isolation résiste au transfert de chaleur, plus &dot;Q est petit, donc moins il y a d'évaporation.
+          Plus l'isolation résiste au transfert de chaleur, plus \(\dot{Q}\) est petit, donc moins il y a d'évaporation.
         </div>
 
-        <div class="formula">Avec les données du TP :
-&dot;Q ≈ 23,15 W
-&dot;m ≈ 5,14 × 10^-5 kg/s</div>
+        <div class="formula">\[\begin{aligned}
+\dot{Q}&\approx 23{,}15\,\mathrm{W}\\
+\dot{m}&\approx 5{,}14\times 10^{-5}\,\mathrm{kg\,s^{-1}}
+\end{aligned}\]</div>
 
         <h2>7. La logique complète en une page mentale</h2>
         <div class="grid">
@@ -469,7 +478,7 @@ Rtot = Rcond,sphère + Rconv,ext</div>
           <li>oublier le signe <strong>-</strong> dans la loi de Fourier ;</li>
           <li>utiliser une formule plane pour une sphère ;</li>
           <li>oublier que <strong>adiabatique = dérivée nulle</strong> ;</li>
-          <li>chercher le maximum sans utiliser <strong>dT/dx = 0</strong> ;</li>
+          <li>chercher le maximum sans utiliser <strong>\(dT/dx = 0\)</strong> ;</li>
           <li>oublier d'additionner les résistances en série dans l'exercice 2.</li>
         </ul>
 
